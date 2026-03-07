@@ -6,6 +6,8 @@ LegalEagle is an AI-powered legal assistant that helps users analyze contracts, 
 
 🚀 Key Features
 
+📄 Easy to use and easy o understand by users
+
 📄 Upload Contracts – Upload legal PDFs (agreements, policies, contracts).
 
 🔎 AI-Powered Q&A – Ask questions in plain English, get accurate, contextual answers.
