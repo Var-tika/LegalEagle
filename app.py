@@ -16,10 +16,18 @@ st.markdown(
 os.makedirs("contracts", exist_ok=True)
 
 
-groq_api_key = st.text_input("🔑 Enter your Groq API Key", type="password")
+groq_api_key = st.text_input(
+    "🔑 Enter your Groq API Key",
+    value=os.getenv("GROQ_API_KEY", ""),
+    type="password",
+)
 if not groq_api_key:
     st.warning("Please enter your Groq API key to continue.")
-    st.stop()
+elif not groq_api_key.isascii():
+    st.error(
+        "The Groq API key contains non-ASCII characters. "
+        "Please paste the key exactly as shown in your Groq account."
+    )
 
 
 uploaded = st.file_uploader("📂 Upload a contract / legal document", type=["pdf"])
@@ -27,28 +35,35 @@ if uploaded:
     file_path = f"contracts/{uploaded.name}"
     with open(file_path, "wb") as f:
         f.write(uploaded.getbuffer())
-    st.success(f"✅ {uploaded.name} uploaded & indexed.")
-    vectordb = ingest_pdf(file_path)
+    try:
+        vectordb = ingest_pdf(file_path)
+        st.success(f"✅ {uploaded.name} uploaded & indexed.")
+    except Exception as exc:
+        vectordb = None
+        st.error(f"Could not process {uploaded.name}: {exc}")
 else:
     try:
         vectordb = load_vectordb()
-    except:
+    except Exception:
         vectordb = None
         st.warning("⚠️ No documents indexed yet. Please upload a PDF.")
 
 
-if vectordb:
+if vectordb and groq_api_key and groq_api_key.isascii():
     qa = build_qa_chain(vectordb, groq_api_key)  # pass API key
     query = st.text_input("💬 Ask a question about your contract")
     if query:
-        result = qa(query)
+        try:
+            result = qa(query)
+        except Exception as exc:
+            st.error(f"Could not get an answer from Groq: {exc}")
+        else:
+            st.subheader("📖 Answer")
+            st.write(result["result"])
 
-        st.subheader("📖 Answer")
-        st.write(result["result"])
-
-        st.subheader("📑 Sources")
-        for doc in result["source_documents"]:
-            st.markdown(
-                f"📄 **Page {doc.metadata.get('page', '?')}**\n\n"
-                f"{doc.page_content[:500]}..."
-            )
+            st.subheader("📑 Sources")
+            for doc in result["source_documents"]:
+                st.markdown(
+                    f"📄 **Page {doc.metadata.get('page', '?')}**\n\n"
+                    f"{doc.page_content[:500]}..."
+                )

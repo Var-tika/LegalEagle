@@ -1,13 +1,18 @@
-import os
+from functools import lru_cache
+
 from langchain_community.document_loaders import PyPDFLoader
-from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_community.vectorstores import FAISS
 from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain.chains import RetrievalQA
 from langchain_groq import ChatGroq
 
 
-embedding_model = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
+@lru_cache(maxsize=1)
+def get_embedding_model() -> HuggingFaceEmbeddings:
+    return HuggingFaceEmbeddings(
+        model_name="sentence-transformers/all-MiniLM-L6-v2"
+    )
 
 
 def ingest_pdf(pdf_path: str, db_path: str = "faiss_index") -> FAISS:
@@ -23,7 +28,7 @@ def ingest_pdf(pdf_path: str, db_path: str = "faiss_index") -> FAISS:
     )
     chunks = splitter.split_documents(docs)
 
-    vectordb = FAISS.from_documents(chunks, embedding_model)
+    vectordb = FAISS.from_documents(chunks, get_embedding_model())
     vectordb.save_local(db_path)
     return vectordb
 
@@ -34,7 +39,7 @@ def load_vectordb(db_path: str = "faiss_index") -> FAISS:
     """
     return FAISS.load_local(
         db_path,
-        embeddings=embedding_model,
+        embeddings=get_embedding_model(),
         allow_dangerous_deserialization=True
     )
 
@@ -45,7 +50,7 @@ def build_qa_chain(vectordb: FAISS, groq_api_key: str):
     The Groq API key is passed from the Streamlit app.
     """
     llm = ChatGroq(
-        model="llama3-70b-8192",  # you can swap to "llama-3-70b-chat" if enabled on your Groq account
+        model="openai/gpt-oss-120b",
         api_key=groq_api_key,
         temperature=0
     )
