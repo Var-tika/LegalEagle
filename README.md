@@ -51,6 +51,30 @@ User Query → LangChain Pipeline → Groq LLM → Contextual Answer
 
 ---
 
+## Deployment
+
+This project uses Streamlit and should be deployed on a platform that runs a
+persistent Streamlit server, such as [Streamlit Community Cloud](https://share.streamlit.io/).
+Vercel's Python runtime expects an HTTP function export (`app`, `application`,
+or `handler`) and does not run this Streamlit application directly.
+
+To deploy on Streamlit Community Cloud:
+
+1. Push this repository to GitHub.
+2. In Streamlit Community Cloud, create an app from the repository's `main`
+   branch and set the app file to `app.py`.
+3. Deploy. The platform installs the dependencies from `requirements.txt`.
+4. Enter a Groq API key in the app when prompted.
+
+You can also configure `GROQ_API_KEY` as an environment variable on a hosting
+platform that supports it; the app will use it as the initial key field value.
+Uploaded contracts and the generated FAISS index are stored on the app's local
+filesystem, so they may not persist across redeployments or restarts. Do not
+upload documents unless you are comfortable with the hosting provider handling
+them.
+
+---
+
 ## Use Cases
 
 ### 🏛️ Legal Professionals
@@ -133,5 +157,4 @@ In the long term, it can evolve into a **universal legal intelligence system** i
 ### "Transforming legal complexity into clarity with AI."
 
 </div>
-
 
