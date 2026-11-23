@@ -37,7 +37,7 @@ PyPDF| PDF text extraction
 
 1. Clone the repository
 
-git clone https://github.com/YOUR-USERNAME/LegalEagle.git
+git clone https://github.com/Var-tika/LegalEagle.git
 cd LegalEagle
 
 2. Create a virtual environment
