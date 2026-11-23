@@ -1,160 +1,98 @@
-<div align="center">
+⚖️ LegalEagle
 
-# LegalEagle — AI Contract Assistant
+«An AI-powered legal document assistant designed to make complex legal documents easier to understand.»
 
-### Making Legal Documents Understandable, Searchable, and Actionable
+""Open App" (https://img.shields.io/badge/Live%20App-Streamlit-red?logo=streamlit)" (https://legaleaglee.streamlit.app/)
 
-</div>
+🌐 Live Demo
 
----
+🚀 Try LegalEagle here: https://legaleaglee.streamlit.app/
 
-## Overview
+📌 About
 
-**LegalEagle** is an AI-powered legal assistant designed to analyze contracts, agreements, and legal documents with speed and precision.
+LegalEagle is an AI-powered legal document assistant that helps users interact with and understand legal documents. It leverages Retrieval-Augmented Generation (RAG) to retrieve relevant information from documents and provide context-based responses to user queries.
 
-By integrating **FAISS vector search, Hugging Face embeddings, and Groq’s high-performance LLM API**, the system enables users to extract insights, ask contextual questions, and understand complex legal content in seconds.
+The application combines document processing, semantic search, and language models to make legal information easier to access and understand.
 
-The goal is to reduce the friction of legal comprehension and make **contract intelligence accessible to everyone**.
+✨ Features
 
----
+- 📄 PDF Document Processing – Extract and process text from legal documents.
+- 🔍 Semantic Search – Retrieve relevant information based on the meaning of user queries.
+- 🧠 Retrieval-Augmented Generation (RAG) – Generate responses grounded in retrieved document context.
+- 💬 Interactive Question Answering – Ask questions about the uploaded legal documents.
+- ⚡ Efficient Retrieval – FAISS-based vector search for retrieving relevant document chunks.
+- 🖥️ Interactive UI – Built with Streamlit for a simple user experience.
 
-## Key Features
+🛠️ Tech Stack
 
-* 📄 **Contract Upload** → Upload legal PDFs (agreements, policies, contracts)
-* 🔎 **AI-Powered Q&A** → Ask questions in natural language and receive contextual answers
-* 📚 **Source Attribution** → View exact references from the document
-* ⚡ **High-Performance Stack** → Fast embeddings + ultra-low latency inference
-* 🔐 **Secure API Usage** → User-provided Groq API key at runtime
-* 🎯 **User-Friendly Interface** → Simple and intuitive experience
+Technology| Purpose
+Python| Core development
+Streamlit| User interface
+LangChain| RAG pipeline orchestration
+FAISS| Vector similarity search
+Sentence Transformers| Text embeddings
+PyPDF| PDF text extraction
 
----
+⚙️ Installation & Setup
 
-## System Architecture
+1. Clone the repository
 
-```
-PDF Upload → Text Extraction → Embeddings (HuggingFace)
-        ↓
-     FAISS Vector Store
-        ↓
-User Query → LangChain Pipeline → Groq LLM → Contextual Answer
-```
+git clone https://github.com/YOUR-USERNAME/LegalEagle.git
+cd LegalEagle
 
----
+2. Create a virtual environment
 
-## Tech Stack
+python -m venv venv
 
-* **Frontend**: Streamlit (Python-based UI)
-* **Backend**: LangChain + FAISS (vector search)
-* **Embeddings**: SentenceTransformers (Hugging Face)
-* **LLM**: Groq API (high-speed inference)
-* **Storage**: FAISS index + local document storage
+3. Activate the environment
 
----
+Windows:
 
-## Deployment
+venv\Scripts\activate
 
-This project uses Streamlit and should be deployed on a platform that runs a
-persistent Streamlit server, such as [Streamlit Community Cloud](https://share.streamlit.io/).
-Vercel's Python runtime expects an HTTP function export (`app`, `application`,
-or `handler`) and does not run this Streamlit application directly.
+Linux/macOS:
 
-To deploy on Streamlit Community Cloud:
+source venv/bin/activate
 
-1. Push this repository to GitHub.
-2. In Streamlit Community Cloud, create an app from the repository's `main`
-   branch and set the app file to `app.py`.
-3. Deploy. The platform installs the dependencies from `requirements.txt`.
-4. Enter a Groq API key in the app when prompted.
+4. Install dependencies
 
-You can also configure `GROQ_API_KEY` as an environment variable on a hosting
-platform that supports it; the app will use it as the initial key field value.
-Uploaded contracts and the generated FAISS index are stored on the app's local
-filesystem, so they may not persist across redeployments or restarts. Do not
-upload documents unless you are comfortable with the hosting provider handling
-them.
+pip install -r requirements.txt
 
----
+5. Run the application
 
-## Use Cases
+streamlit run app.py
 
-### 🏛️ Legal Professionals
+The application will open in your browser.
 
-* Rapid contract review
-* Identification of clauses, risks, and obligations
-* Reduced manual workload
+📂 Project Structure
 
-### 📑 Businesses & Startups
+LegalEagle/
+│
+├── app.py
+├── backend.py
+├── requirements.txt
+├── README.md
+├── LICENSE
+└── .gitignore
 
-* Faster due diligence for agreements
-* Improved compliance checks
-* Risk minimization in contracts
+🔄 How It Works
 
-### 👨‍💼 General Users
+1. Upload a legal document.
+2. Extract text from the uploaded PDF.
+3. Split the extracted text into smaller chunks.
+4. Generate embeddings for document chunks.
+5. Store embeddings in FAISS for efficient retrieval.
+6. Retrieve relevant chunks based on the user's query.
+7. Generate a contextual response using the RAG pipeline.
 
-* Understand legal documents in simple language
-* Analyze employment, rental, or policy documents
-* Access legal insights without specialized knowledge
+⚠️ Disclaimer
+
+LegalEagle is an AI-powered tool intended for informational and educational purposes only. Its responses should not be considered a substitute for professional legal advice. Always consult a qualified legal professional for advice regarding legal matters.
+
+🌟 Support
+
+If you find this project useful, consider giving the repository a star!
 
 ---
 
-## Engineering Approach
-
-### Retrieval-Augmented Generation (RAG)
-
-LegalEagle uses a RAG-based pipeline to ensure responses are:
-
-* Contextually grounded
-* Factually aligned with uploaded documents
-* Traceable via source references
-
-### Modular Design
-
-* Document ingestion and processing
-* Embedding and indexing
-* Query handling and response generation
-
-### Performance Optimization
-
-* FAISS for efficient similarity search
-* Groq for low-latency inference
-
----
-
-## What This Project Demonstrates
-
-* End-to-end LLM application development
-* Implementation of RAG pipelines
-* Integration of vector databases (FAISS)
-* Real-world AI system for document intelligence
-* Focus on usability + performance
-
----
-
-## Future Scope
-
-* Multi-document querying and comparison
-* Advanced clause detection and summarization
-* Integration with legal databases and APIs
-* Voice-based legal assistant
-* Deployment as SaaS platform
-
----
-
-## Vision
-
-LegalEagle aims to democratize legal understanding:
-
-* Make contracts transparent and accessible
-* Reduce dependency on expensive legal reviews
-* Enable faster, smarter decision-making
-
-In the long term, it can evolve into a **universal legal intelligence system** integrated across businesses, startups, and public platforms.
-
----
-
-<div align="center">
-
-### "Transforming legal complexity into clarity with AI."
-
-</div>
-
+Built with Python, LangChain, FAISS and Streamlit. ⚖️
