@@ -3,3 +3,34 @@ __pycache__/
 *.py[cod]
 contracts/
 faiss_index/
+.env
+# Virtual Environment
+venv/
+.venv/
+
+# Environment variables / API Keys
+.env
+.env.*
+!.env.example
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Jupyter
+.ipynb_checkpoints/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Logs
+*.log
+
+# Streamlit
+.streamlit/secrets.toml
